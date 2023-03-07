@@ -1,6 +1,7 @@
 ﻿using Eksim_Bootcamp.Shared;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Json;
+using System.Numerics;
 
 namespace Eksim_Bootcamp.Client.Services.MeetServices
 {
@@ -12,6 +13,11 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
         {
             _http = http;
             _stateProvider = stateProvider;
+        }
+
+        public async Task CreateMeet(Meet meet)
+        {
+            var response = await _http.PostAsJsonAsync("api/meet/add", meet);
         }
 
         //public async Task CancelMeet(int id)

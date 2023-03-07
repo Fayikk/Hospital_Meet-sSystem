@@ -1,6 +1,8 @@
-﻿using Eksim_Bootcamp.Server.Context;
+﻿using AutoMapper;
+using Eksim_Bootcamp.Server.Context;
 using Eksim_Bootcamp.Server.Services.ForAuth;
 using Eksim_Bootcamp.Shared;
+using Eksim_Bootcamp.Shared.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eksim_Bootcamp.Server.Services.ForMeet
@@ -9,10 +11,12 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
     {
         private readonly ApplicationDbContext _context;
         private readonly IAuthService _authService;
-        public MeetService(ApplicationDbContext context,IAuthService authService)
+        private readonly IMapper _mapper;
+        public MeetService(ApplicationDbContext context,IAuthService authService,IMapper mapper)
         {
             _context = context;
             _authService = authService;
+            _mapper = mapper;
 
         }
 
@@ -47,28 +51,26 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
         
         }
 
-        public async Task<ServiceResponse<Meet>> CreateMeet(Meet meet)
+        public async Task<ServiceResponse<MeetDTO>> CreateMeet(MeetDTO meet)
         {
             var result = await _context.Doctors.FirstOrDefaultAsync(x => x.DoctorId == meet.DoctorId);
             var poly = await _context.Policlinics.FirstOrDefaultAsync(x => x.Id == result.PoliclinicId);
             var user = _authService.GetUserId();
+            var obj = _mapper.Map<MeetDTO, Meet>(meet);
             if (result != null && poly != null )
             {
-                meet.PolyclinicName = poly.PoliclinicName;
-                meet.CreatedMeet = DateTime.UtcNow;
                 meet.DoctorId=result.DoctorId;
-                meet.Status = true;
-                meet.UserId = user;
-                _context.Meets.Add(meet);
+               var addedObj = _context.Meets.Add(obj);
                 await _context.SaveChangesAsync();
+                var map = _mapper.Map<Meet, MeetDTO>(addedObj.Entity);
 
-                return new ServiceResponse<Meet>
+                return new ServiceResponse<MeetDTO>
                 {
-                    Data = meet,
+                    Data = map,
                     Success = true,
                 };
             }
-            return new ServiceResponse<Meet> { Success= false };
+            return new ServiceResponse<MeetDTO> { Success= false };
         }
 
 

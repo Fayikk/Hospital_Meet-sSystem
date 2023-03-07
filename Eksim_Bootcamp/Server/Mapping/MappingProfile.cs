@@ -11,6 +11,7 @@ namespace Eksim_Bootcamp.Server.Mapping
         {
 
             CreateMap<DoctorDTO,Doctor>().ReverseMap();
+            CreateMap<MeetDTO, Meet>().ReverseMap();
         }
     }
 }

@@ -6,13 +6,16 @@
 
 <EditForm Model="doctor" OnValidSubmit="AddDoctor">
     <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="mb-3">
-        <label for="Name">Doctor Name</label>
-        @foreach(var item in _policlinicService.Policlinics)
-        {
-            <select class="form-control">@item.PoliclinicName</select>
-        }
-        <ValidationMessage For="@(() => doctor.Name)"></ValidationMessage>
+    <div class="btn btn-group col-6">
+        <InputSelect @bind-Value="doctor.PoliclinicId" class="form-select">
+            <option value="0" disabled="disabled" selected>--Select Policlinic--</option>
+            @foreach (var cat in _policlinicService.Policlinics)
+            {
+                <option value="@cat.Id">@cat.PoliclinicName</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="()=>doctor.PoliclinicId"></ValidationMessage>
+
     </div>
     <div class="mb-3">
         <label for="Name">Doctor Name</label>
@@ -37,15 +40,14 @@
 
 
     private Doctor doctor = new Doctor();
+    private IEnumerable<Policlinic> _policlinics { get; set; } = new List<Policlinic>();
 
-    private async Task AddDoctor()
+    public async Task AddDoctor()
     {
         await _doctorService.CreateDoctor(doctor);
         _navigationManager.NavigateTo("");
+       
     }
 
 }
-   public int PoliclinicId { get; set; }   
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string DoctorTitle { get; set; } 
+ } 

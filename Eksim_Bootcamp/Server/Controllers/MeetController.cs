@@ -1,5 +1,6 @@
 ﻿using Eksim_Bootcamp.Server.Services.ForMeet;
 using Eksim_Bootcamp.Shared;
+using Eksim_Bootcamp.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ namespace Eksim_Bootcamp.Server.Controllers
         //Task<ServiceResponse<Meet>> CreateMeet(Meet meet);
         //Task<ServiceResponse<Meet>> CancelMeet(int id);
 
-        [HttpPost]
+        [HttpPost("add")]
         [Authorize]
-        public async Task<ActionResult<ServiceResponse<Meet>>> CreateMap(Meet meet)
+        public async Task<ActionResult<ServiceResponse<MeetDTO>>> CreateMap(MeetDTO meet)
         {
             var result = await _meetService.CreateMeet(meet);
             return Ok(result);

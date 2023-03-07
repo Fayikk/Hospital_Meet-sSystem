@@ -1,0 +1,30 @@
+﻿@using Eksim_Bootcamp.Client.Services.MeetServices;
+@using Eksim_Bootcamp.Shared;
+@inject IMeetService _meetService
+@inject NavigationManager _navigationManager
+
+@*<EditForm Model="meet" OnValidSubmit="CreateMet">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="policlinicName">Policlinic Name</label>
+        <InputText id="text" @bind-Value="policlinic.PoliclinicName" class="form-control"></InputText>
+        <ValidationMessage For="@(() => policlinic.PoliclinicName)"></ValidationMessage>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</EditForm>*@
+
+
+@code {
+    [Parameter]
+    public int DoctorId { get; set; }
+    Meet meet = new Meet();
+
+    private async Task CreateMet(Meet meet)
+    {
+        await _meetService.CreateMeet(meet);
+        _navigationManager.NavigateTo("");
+    }
+
+}

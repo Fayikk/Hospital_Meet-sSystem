@@ -4,7 +4,7 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
 {
     public interface IPoliclinicService
     {
-        event Action OnChange;
+        public event Action OnChange;
         List<Policlinic> Policlinics { get; set; }   
         Task  GetPoliclinics();
         Task CreatePoliclinics(Policlinic policlinic);

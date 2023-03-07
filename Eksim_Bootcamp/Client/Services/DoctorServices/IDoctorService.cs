@@ -5,7 +5,7 @@ namespace Eksim_Bootcamp.Client.Services.DoctorServices
 {
     public interface IDoctorService
     {
-        event Action ProductsChanged;
+        event Action doctorsChanged;
         List<Doctor> Doctors { get; set; }
         string Message { get; set; }
         Task GetDoctor(string Id);

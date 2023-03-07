@@ -15,7 +15,7 @@ namespace Eksim_Bootcamp.Client.Services.DoctorServices
         public List<Doctor> Doctors { get ; set ; } = new List<Doctor>();
         public string Message { get ; set ; }
 
-        public event Action ProductsChanged;
+        public event Action doctorsChanged;
 
         public async Task GetDoctors()
         {
@@ -41,14 +41,14 @@ namespace Eksim_Bootcamp.Client.Services.DoctorServices
             {
                 Doctors = result.Data;
             }
-            ProductsChanged.Invoke();
+            doctorsChanged.Invoke();
         }
 
         public async Task CreateDoctor(Doctor doctor)
         {
             var response = await _http.PostAsJsonAsync("api/doctor/add", doctor);
             Doctors = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Doctor>>>()).Data;
-            ProductsChanged.Invoke();
+            doctorsChanged.Invoke();
         }
 
     }

@@ -17,7 +17,7 @@ namespace Eksim_Bootcamp.Shared
         public string DoctorName { get; set; } //
         public string PolyclinicName { get; set; }  //
         public DateTime MeetDate { get; set; }  //
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
     }
 }

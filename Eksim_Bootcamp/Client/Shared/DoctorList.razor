@@ -10,7 +10,7 @@
         <div class="card-body">
             <h5 class="card-title">@item.Name</h5>
             <p class="card-text">@item.Description</p>
-            <a href="#" class="btn btn-primary">Take meet</a>
+            <a href="@item.DoctorId" class="btn btn-primary">Take meet</a>
         </div>
     </div>
        
@@ -26,12 +26,12 @@
     }
     protected override void OnInitialized()
     {
-        _doctorService.ProductsChanged += StateHasChanged;
+        _doctorService.doctorsChanged += StateHasChanged;
     }
 
     public void Dispose()
     {
-        _doctorService.ProductsChanged -= StateHasChanged;
+        _doctorService.doctorsChanged -= StateHasChanged;
     }
 
 }
