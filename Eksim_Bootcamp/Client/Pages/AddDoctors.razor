@@ -1,0 +1,51 @@
+﻿@page "/addDoctor"
+@using Eksim_Bootcamp.Shared;
+@inject IDoctorService _doctorService
+@inject IPoliclinicService _policlinicService
+@inject NavigationManager _navigationManager
+
+<EditForm Model="doctor" OnValidSubmit="AddDoctor">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="Name">Doctor Name</label>
+        @foreach(var item in _policlinicService.Policlinics)
+        {
+            <select class="form-control">@item.PoliclinicName</select>
+        }
+        <ValidationMessage For="@(() => doctor.Name)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="Name">Doctor Name</label>
+        <InputText id="text" @bind-Value="doctor.Name" class="form-control"></InputText>
+        <ValidationMessage For="@(() => doctor.Name)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="Name">Description</label>
+        <InputText id="text" @bind-Value="doctor.Description" class="form-control"></InputText>
+        <ValidationMessage For="@(() => doctor.Description)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="Name">Doctor Title</label>
+        <InputText id="text" @bind-Value="doctor.DoctorTitle" class="form-control"></InputText>
+        <ValidationMessage For="@(() => doctor.DoctorTitle)"></ValidationMessage>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</EditForm>
+
+@code {
+
+
+    private Doctor doctor = new Doctor();
+
+    private async Task AddDoctor()
+    {
+        await _doctorService.CreateDoctor(doctor);
+        _navigationManager.NavigateTo("");
+    }
+
+}
+   public int PoliclinicId { get; set; }   
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DoctorTitle { get; set; } 

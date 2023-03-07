@@ -1,0 +1,39 @@
+﻿@page "/"
+@page "/{poliId}"
+
+@inject IPoliclinicService _policlinicService
+@inject IDoctorService _doctorService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<DoctorList></DoctorList>
+
+@*@if (Id != null)
+{
+    <DoctorList></DoctorList>
+}*@
+
+
+@code {
+    [Parameter]
+    public string? poliId { get; set; } = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await _doctorService.GetDoctor(poliId);
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    _doctorService.ProductsChanged += StateHasChanged;
+    //}
+    //public void Dispose()
+    //{
+    //    _doctorService.ProductsChanged -= StateHasChanged;
+    //}
+
+
+
+}

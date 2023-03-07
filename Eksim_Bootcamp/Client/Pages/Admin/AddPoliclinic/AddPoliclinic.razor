@@ -1,0 +1,44 @@
+﻿@page "/add-policlinic"
+@using Eksim_Bootcamp.Shared;
+@inject IPoliclinicService _policlinicService
+
+@*<h3>AddPoliclinic</h3>
+<div class="header">
+    <div class="col">Policlinic Name</div>
+</div>
+
+<EditForm>
+
+    <DataAnnotationsValidator>
+         <EditForm Model="policlinic" OnSubmit="AddNewCategory">
+            <div class="row">
+                <div class="col">
+                    <InputText @bind-Value="editingCategory.Name" class="form-control"></InputText>
+                </div>
+                <div class="col">
+                    <InputText @bind-Value="editingCategory.Url" class="form-control"></InputText>
+                </div>
+                <div class="col col-visible">
+                    <InputCheckbox @bind-Value="editingCategory.Visible" style="transform: scale(1.5,1.5);"></InputCheckbox>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="oi oi-cloud-upload"></i>
+                    </button>
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    </DataAnnotationsValidator>
+
+
+</EditForm>*@
+@*
+@code {
+    Policlinic policlinic = null;
+    public async void AddNewCategory()
+    {
+        policlinic = await _policlinicService.CreatePoliclinics(policlinic);
+    }
+}
+*@

@@ -1,0 +1,29 @@
+﻿@page "/addPoli"
+
+@using Eksim_Bootcamp.Shared;
+@inject IPoliclinicService _policlinicService
+@inject NavigationManager _navigation
+
+<EditForm Model="policlinic" OnValidSubmit="AddPoliclinicc">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="policlinicName">Policlinic Name</label>
+        <InputText id="text" @bind-Value="policlinic.PoliclinicName" class="form-control"></InputText>
+        <ValidationMessage For="@(() => policlinic.PoliclinicName)"></ValidationMessage>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</EditForm>
+
+
+
+@code {
+    private Policlinic policlinic = new Policlinic();
+
+    private async Task AddPoliclinicc()
+    {
+        await _policlinicService.CreatePoliclinics(policlinic);
+        _navigation.NavigateTo("");
+    }
+}

@@ -1,0 +1,34 @@
+﻿@page "/meets"
+@using Eksim_Bootcamp.Client.Services.MeetServices;
+@using Eksim_Bootcamp.Shared;
+@inject IMeetService _meetService
+
+@if (meets.Count <= 0)
+{
+    <span>You have meet,yet.</span>
+}
+else
+{
+    foreach (var item in meets)
+    {
+        <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@item.PolyclinicName</li>
+                <li class="list-group-item">@item.CreatedMeet</li>
+                <li class="list-group-item">@item.DoctorName</li>
+                <li class="list-group-item">@item.Status</li>
+                <li class="list-group-item">@item.MeetDate</li>
+            </ul>
+        </div>
+        <br /><br />
+    }
+}
+
+@code {
+    List<Meet> meets = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        meets = await _meetService.GetMeet();
+    }
+}
