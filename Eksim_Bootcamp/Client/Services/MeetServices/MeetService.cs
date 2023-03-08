@@ -20,10 +20,10 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
             var response = await _http.PostAsJsonAsync("api/meet/add", meet);
         }
 
-        //public async Task CancelMeet(int id)
-        //{
-        //    var result = await _http.PutAsJsonAsync<ServiceResponse<Meet>>($"api/meet/cancel/{id}");
-        //}
+        public async Task CancelMeet(int id)
+        {
+            var result = await _http.PutAsJsonAsync<ServiceResponse<Meet>>($"api/meet/cancel/{id}",null);
+        }
 
         public async Task<List<Meet>> GetMeet()
         {

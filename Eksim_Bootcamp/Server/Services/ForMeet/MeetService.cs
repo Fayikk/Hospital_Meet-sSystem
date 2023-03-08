@@ -24,7 +24,7 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
         {
             var result = await _context.Meets.FirstOrDefaultAsync(x=>x.Id == id);
 
-            var response = DateTime.UtcNow - result.MeetDate;
+            var response = result.MeetDate - DateTime.UtcNow ;
             var hour = response.Hours;
 
             if (result.Status != false)
@@ -39,7 +39,8 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
                 }
                 else
                 {
-                    result.Status = true;
+                    result.Status = false;
+                    await _context.SaveChangesAsync();
                     return new ServiceResponse<Meet>
                     {
                         Success = true,

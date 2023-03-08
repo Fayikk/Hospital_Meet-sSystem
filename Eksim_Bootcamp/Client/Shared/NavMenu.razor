@@ -1,5 +1,5 @@
 ﻿@inject IPoliclinicService _policlinicService
-
+@implements IDisposable
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -42,4 +42,15 @@
     {
         await _policlinicService.GetPoliclinics();
     }
+
+    protected override void OnInitialized()
+    {
+        _policlinicService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _policlinicService.OnChange -= StateHasChanged;
+    }
+
 }

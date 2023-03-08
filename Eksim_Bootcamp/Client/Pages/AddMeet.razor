@@ -3,7 +3,7 @@
 @inject IMeetService _meetService
 @inject NavigationManager _navigationManager
 
-@*<EditForm Model="meet" OnValidSubmit="CreateMet">
+@*<EditForm Model="meet" OnValidSubmit="CreateMeet">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="mb-3">
         <label for="policlinicName">Policlinic Name</label>
@@ -21,7 +21,7 @@
     public int DoctorId { get; set; }
     Meet meet = new Meet();
 
-    private async Task CreateMet(Meet meet)
+    private async Task CreateMeet(Meet meet)
     {
         await _meetService.CreateMeet(meet);
         _navigationManager.NavigateTo("");

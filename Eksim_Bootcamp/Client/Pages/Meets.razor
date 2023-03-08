@@ -16,19 +16,52 @@ else
                 <li class="list-group-item">@item.PolyclinicName</li>
                 <li class="list-group-item">@item.CreatedMeet</li>
                 <li class="list-group-item">@item.DoctorName</li>
-                <li class="list-group-item">@item.Status</li>
+                @if (item.Status == false)
+                {
+                    <li class="list-group-item" style="color:red">@item.Status</li>
+
+                }
+                else
+                {
+                    <li class="list-group-item" style="color:green">@item.Status</li>
+
+
+                }
                 <li class="list-group-item">@item.MeetDate</li>
             </ul>
+            <div class="container">
+                @if (item.Status == false)
+                {
+                    <button class="btn btn-outline-warning" disabled @onclick="() => _meetService.CancelMeet(item.Id)">Cancel Meet</button>
+
+                }
+                else
+                {
+                    <button class="btn btn-outline-warning"  @onclick="() => _meetService.CancelMeet(item.Id)">Cancel Meet</button>
+                }
+            </div>
+
+
         </div>
-        <br /><br />
+        <br />
+        <br />
     }
 }
 
 @code {
     List<Meet> meets = null;
+    [Parameter]
+    public int Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         meets = await _meetService.GetMeet();
     }
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    await _meetService.CancelMeet(Id);
+    //    meets = await _meetService.GetMeet();
+    //}
+
 }

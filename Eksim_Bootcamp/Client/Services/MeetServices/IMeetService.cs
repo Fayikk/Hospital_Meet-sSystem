@@ -6,6 +6,6 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
     {
         Task<List<Meet>> GetMeet();
         Task CreateMeet(Meet meet);
-        //Task CancelMeet(int id);
+        Task CancelMeet(int id);
     }
 }

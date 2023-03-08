@@ -35,7 +35,12 @@ namespace Eksim_Bootcamp.Server.Controllers
             return result;
         }
 
-
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<ServiceResponse<int>>> DeleteMeet([FromRoute] int id)
+        {
+            var result = await _polyService.DeletePoly(id);
+            return Ok(result);
+        }
 
     }
 }

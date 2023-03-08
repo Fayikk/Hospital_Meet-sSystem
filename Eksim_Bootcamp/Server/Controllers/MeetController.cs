@@ -40,8 +40,8 @@ namespace Eksim_Bootcamp.Server.Controllers
             var result = await _meetService.CancelMeet(id);
             return Ok(result);
         }
-    
 
+       
 
     }
 }

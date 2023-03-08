@@ -3,6 +3,9 @@
 @using Eksim_Bootcamp.Shared;
 @inject IPoliclinicService _policlinicService
 @inject NavigationManager _navigation
+@implements IDisposable
+
+
 
 <EditForm Model="policlinic" OnValidSubmit="AddPoliclinicc">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -15,21 +18,53 @@
     <button type="submit" class="btn btn-primary">Save</button>
 
 </EditForm>
+<br />
+<br />
+<br />
+<br />
+
+@foreach (var item in policlinics)
+{
+    <div class="container">
+        <div class="table-bordered">
+            <h4>@item.PoliclinicName</h4>
+        </div>
+    </div>
+   <button class="btn btn-warning" @onclick="()=> _policlinicService.DeletePoliclinics(item.Id)"  >Sil</button>
+}
+
+
 
 
 
 @code {
     private Policlinic policlinic = new Policlinic();
+    List<Policlinic> policlinics = new List<Policlinic>();
+
 
     private async Task AddPoliclinicc()
     {
         await _policlinicService.CreatePoliclinics(policlinic);
         _navigation.NavigateTo("");
-       
+
 
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        policlinics= await _policlinicService.GetPoliclinics();
+    }
 
+
+    protected override void OnInitialized()
+    {
+        _policlinicService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _policlinicService.OnChange -= StateHasChanged;
+    }
 
 
 }

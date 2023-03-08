@@ -14,14 +14,21 @@ namespace Eksim_Bootcamp.Server.Services.ForPoly
 
         public async Task<ServiceResponse<Policlinic>> AddPoly(Policlinic poly)
         {
-            _context.Policlinics.Add(poly);
-            await _context.SaveChangesAsync();
-            return new ServiceResponse<Policlinic>
+            var result = await _context.Policlinics.FirstOrDefaultAsync(x => x.PoliclinicName.ToLower().Equals(poly.PoliclinicName.ToLower()));
+
+            if (result == null)
             {
-                Data = poly,
-                Success = true,
-                Message = "Succes",
-            };
+                _context.Policlinics.Add(poly);
+                await _context.SaveChangesAsync();
+                return new ServiceResponse<Policlinic>
+                {
+                    Data = poly,
+                    Success = true,
+                    Message = "Succes",
+                };
+            }
+            return new ServiceResponse<Policlinic> { Success = false,Message="Policlinic name already exist" };
+           
         }
 
         public async Task<ServiceResponse<int>> DeletePoly(int meetId)

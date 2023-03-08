@@ -14,16 +14,24 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
 
         public List<Policlinic> Policlinics { get ; set ; } = new List<Policlinic>();
 
-        public event Action OnChange;
 
         public async Task CreatePoliclinics(Policlinic policlin)
         {
             var response = await _httpClient.PostAsJsonAsync("api/policlinic", policlin);
+            OnChange?.Invoke();
+
             Policlinics = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Policlinic>>>()).Data;
-            OnChange.Invoke();
+        }
+        public event Action OnChange;
+
+        public async Task DeletePoliclinics(int id)
+        {
+            var result = await _httpClient.DeleteAsync($"api/policlinic/delete/{id}");
+            OnChange?.Invoke();
+            Policlinics = (await result.Content.ReadFromJsonAsync<ServiceResponse<List<Policlinic>>>()).Data;
         }
 
-        public async Task GetPoliclinics()
+        public async Task<List<Policlinic>> GetPoliclinics()
         {
             var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Policlinic>>>("api/policlinic");
 
@@ -32,6 +40,8 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
                 
                 Policlinics = result.Data;
             }
+
+            return Policlinics;
 
         }
     }

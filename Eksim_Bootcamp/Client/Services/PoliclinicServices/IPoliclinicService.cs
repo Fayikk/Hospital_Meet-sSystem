@@ -6,10 +6,10 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
     {
         public event Action OnChange;
         List<Policlinic> Policlinics { get; set; }   
-        Task  GetPoliclinics();
+        Task<List<Policlinic>>  GetPoliclinics();
         Task CreatePoliclinics(Policlinic policlinic);
 
-        
+        Task DeletePoliclinics(int id);
 
     }
 }
