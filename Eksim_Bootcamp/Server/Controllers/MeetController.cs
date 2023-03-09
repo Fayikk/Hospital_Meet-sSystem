@@ -21,7 +21,7 @@ namespace Eksim_Bootcamp.Server.Controllers
 
         [HttpPost("add")]
         [Authorize]
-        public async Task<ActionResult<ServiceResponse<MeetDTO>>> CreateMap(MeetDTO meet)
+        public async Task<ActionResult<ServiceResponse<Meet>>> CreateMap(Meet meet)
         {
             var result = await _meetService.CreateMeet(meet);
             return Ok(result);

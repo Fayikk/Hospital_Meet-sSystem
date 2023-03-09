@@ -9,6 +9,7 @@ namespace Eksim_Bootcamp.Shared.DTO
     public class MeetDTO
     {
         public int DoctorId { get; set; }
+        public int UserId { get; set; } 
         public DateTime MeetDate { get; set; }
         //public bool Status { get; set; }
 

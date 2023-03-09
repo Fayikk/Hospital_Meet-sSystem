@@ -52,26 +52,29 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
         
         }
 
-        public async Task<ServiceResponse<MeetDTO>> CreateMeet(MeetDTO meet)
+        public async Task<ServiceResponse<Meet>> CreateMeet(Meet meet)
         {
             var result = await _context.Doctors.FirstOrDefaultAsync(x => x.DoctorId == meet.DoctorId);
             var poly = await _context.Policlinics.FirstOrDefaultAsync(x => x.Id == result.PoliclinicId);
             var user = _authService.GetUserId();
-            var obj = _mapper.Map<MeetDTO, Meet>(meet);
+            
             if (result != null && poly != null )
             {
                 meet.DoctorId=result.DoctorId;
-               var addedObj = _context.Meets.Add(obj);
+                meet.UserId = user;
+                meet.PolyclinicName = poly.PoliclinicName;
+                meet.DoctorName = result.Name;
+               var addedObj = _context.Meets.Add(meet);
+       
                 await _context.SaveChangesAsync();
-                var map = _mapper.Map<Meet, MeetDTO>(addedObj.Entity);
 
-                return new ServiceResponse<MeetDTO>
+                return new ServiceResponse<Meet>
                 {
-                    Data = map,
+                    Data = addedObj.Entity,
                     Success = true,
                 };
             }
-            return new ServiceResponse<MeetDTO> { Success= false };
+            return new ServiceResponse<Meet> { Success= false };
         }
 
 
