@@ -20,7 +20,6 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
             var response = await _httpClient.PostAsJsonAsync("api/policlinic", policlin);
             OnChange?.Invoke();
 
-            Policlinics = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Policlinic>>>()).Data;
         }
         public event Action OnChange;
 
@@ -28,7 +27,7 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
         {
             var result = await _httpClient.DeleteAsync($"api/policlinic/delete/{id}");
             OnChange?.Invoke();
-            Policlinics = (await result.Content.ReadFromJsonAsync<ServiceResponse<List<Policlinic>>>()).Data;
+          
         }
 
         public async Task<List<Policlinic>> GetPoliclinics()
@@ -40,6 +39,7 @@ namespace Eksim_Bootcamp.Client.Services.PoliclinicServices
                 
                 Policlinics = result.Data;
             }
+            OnChange?.Invoke();
 
             return Policlinics;
 

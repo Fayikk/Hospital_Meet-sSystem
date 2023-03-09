@@ -8,7 +8,7 @@ namespace Eksim_Bootcamp.Client.Services.DoctorServices
         event Action doctorsChanged;
         List<Doctor> Doctors { get; set; }
         string Message { get; set; }
-        Task GetDoctor(string Id);
+        Task GetDoctor(int Id);
         Task GetDoctors();
         Task CreateDoctor(Doctor doctor);
         //Task<ServiceResponse<Doctor>> GetDoctor(int id);

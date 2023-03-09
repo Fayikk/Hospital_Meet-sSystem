@@ -31,11 +31,13 @@ namespace Eksim_Bootcamp.Server.Services.ForPoly
            
         }
 
-        public async Task<ServiceResponse<int>> DeletePoly(int meetId)
+        public async Task<ServiceResponse<int>> DeletePoly(int polyId)
         {
-            var result = await _context.Policlinics.FirstOrDefaultAsync(x=>x.Id== meetId);  
+            var result = await _context.Policlinics.FirstOrDefaultAsync(x=>x.Id== polyId);
+            var result2 = await _context.Doctors.Where(x => x.PoliclinicId == polyId).ToListAsync();
             if (result != null) { 
                 _context.Policlinics.Remove(result);
+                _context.Doctors.RemoveRange(result2);
                 await  _context.SaveChangesAsync();
                 return new ServiceResponse<int> { Data = result.Id,Message="Your process is succes" };
             }

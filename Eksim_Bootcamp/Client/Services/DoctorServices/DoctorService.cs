@@ -32,11 +32,11 @@ namespace Eksim_Bootcamp.Client.Services.DoctorServices
         //    return result;
         //}
 
-        public async Task GetDoctor(string Id)
+        public async Task GetDoctor(int Id)
         {
-            var rev = int.Parse(Id);
+            //var rev = int.Parse(Id);
 
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Doctor>>>($"api/doctor/{rev}");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Doctor>>>($"api/doctor/{Id}");
             if (result != null)
             {
                 Doctors = result.Data;
@@ -47,8 +47,8 @@ namespace Eksim_Bootcamp.Client.Services.DoctorServices
         public async Task CreateDoctor(Doctor doctor)
         {
             var response = await _http.PostAsJsonAsync("api/doctor/add", doctor);
-            Doctors = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Doctor>>>()).Data;
-            doctorsChanged.Invoke();
+            //Doctors = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Doctor>>>()).Data;
+            doctorsChanged?.Invoke();
         }
 
     }

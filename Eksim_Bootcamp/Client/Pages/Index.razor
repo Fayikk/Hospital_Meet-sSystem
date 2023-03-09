@@ -1,5 +1,6 @@
 ﻿@page "/"
-@page "/{poliId}"
+@page "/{poliId:int}"
+@using Eksim_Bootcamp.Shared;
 
 @inject IPoliclinicService _policlinicService
 @inject IDoctorService _doctorService
@@ -11,30 +12,20 @@
 
 <DoctorList></DoctorList>
 
-@*@if (Id != null)
-{
-    <DoctorList></DoctorList>
-}*@
-
 
 @code {
     [Parameter]
-    public string? poliId { get; set; } = null;
-
+    public int? poliId { get; set; } 
+    List<Doctor> Doctors = new List<Doctor>();
     protected override async Task OnParametersSetAsync()
     {
-        await _doctorService.GetDoctor(poliId);
+        if (poliId.HasValue)
+        {
+            await _doctorService.GetDoctor(poliId.Value);
+
+        }
     }
 
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    _doctorService.ProductsChanged += StateHasChanged;
-    //}
-    //public void Dispose()
-    //{
-    //    _doctorService.ProductsChanged -= StateHasChanged;
-    //}
-
-
+ 
 
 }

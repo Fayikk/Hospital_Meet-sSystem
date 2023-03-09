@@ -41,12 +41,10 @@
     protected override async Task OnInitializedAsync()
     {
         await _policlinicService.GetPoliclinics();
+        _policlinicService.OnChange += StateHasChanged;
+
     }
 
-    protected override void OnInitialized()
-    {
-        _policlinicService.OnChange += StateHasChanged;
-    }
 
     public void Dispose()
     {

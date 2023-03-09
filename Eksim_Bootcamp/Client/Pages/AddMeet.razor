@@ -1,30 +1,46 @@
-﻿@using Eksim_Bootcamp.Client.Services.MeetServices;
+﻿@page "/meetDate/{doctorId:int}"
+@using Eksim_Bootcamp.Client.Services.MeetServices;
 @using Eksim_Bootcamp.Shared;
 @inject IMeetService _meetService
 @inject NavigationManager _navigationManager
 
-@*<EditForm Model="meet" OnValidSubmit="CreateMeet">
+<EditForm Model="meet" OnValidSubmit="CreateMeets">
     <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="mb-3">
-        <label for="policlinicName">Policlinic Name</label>
-        <InputText id="text" @bind-Value="policlinic.PoliclinicName" class="form-control"></InputText>
-        <ValidationMessage For="@(() => policlinic.PoliclinicName)"></ValidationMessage>
+    <div class="mb-3" style="display:none">
+        <label for="doctorId">Randevu alınacak Doktor</label>
+        <InputNumber @bind-Value="meet.DoctorId" class="form-control"></InputNumber>
+        <ValidationSummary For="@(() => meet.DoctorId)"></ValidationSummary>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <div class="mb-3">
+        <label for="doctorId">Tarih bilgisini Giriniz</label>
+        <InputDate @bind-Value="meet.MeetDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")"></InputDate>
+        <ValidationSummary For="@(() => meet.MeetDate)"></ValidationSummary>
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Save</button>
 
-</EditForm>*@
+    </div>
+
+</EditForm>
 
 
 @code {
     [Parameter]
-    public int DoctorId { get; set; }
+    public int doctorId { get; set; }
     Meet meet = new Meet();
 
-    private async Task CreateMeet(Meet meet)
+
+    private async Task CreateMeets()
     {
+        meet.DoctorId = doctorId;
         await _meetService.CreateMeet(meet);
         _navigationManager.NavigateTo("");
     }
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    await _doctorService.GetDoctor(poliId);
+    //}
 
 }
