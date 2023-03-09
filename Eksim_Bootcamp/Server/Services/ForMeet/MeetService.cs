@@ -26,10 +26,10 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
 
             var response = result.MeetDate - DateTime.UtcNow ;
             var hour = response.Hours;
-
+            var day = response.Days;
             if (result.Status != false)
             {
-                if (hour < 6)
+                if (hour < 6 && day<1)
                 {
                     return new ServiceResponse<Meet>
                     {

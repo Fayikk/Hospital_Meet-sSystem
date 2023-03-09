@@ -58,10 +58,9 @@ else
         meets = await _meetService.GetMeet();
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected async Task Cancel()
     {
         await _meetService.CancelMeet(Id);
-        meets = await _meetService.GetMeet();
     }
 
 }
