@@ -2,6 +2,8 @@
 @using Eksim_Bootcamp.Client.Services.MeetServices;
 @using Eksim_Bootcamp.Shared;
 @inject IMeetService _meetService
+@inject NavigationManager _navigationManager
+
 
 @if (meets.Count <= 0)
 {
@@ -40,10 +42,9 @@ else
                     <button class="btn btn-outline-warning"  @onclick="() => _meetService.CancelMeet(item.Id)">Cancel Meet</button>
                 }
             </div>
-
-
         </div>
         <br />
+        <div class="mb-3 text-danger">@errorMessage</div>
         <br />
     }
 }
@@ -52,6 +53,7 @@ else
     List<Meet> meets = null;
     [Parameter]
     public int Id { get; set; }
+    string errorMessage = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,7 +62,18 @@ else
 
     protected async Task Cancel()
     {
-        await _meetService.CancelMeet(Id);
+       var result = await _meetService.CancelMeet(Id);
+   
+        if (!result.Success)
+        {
+            errorMessage = result.Message;
+        }
+        else
+        {
+            _navigationManager.NavigateTo("");
+
+        }
+    
     }
 
 }

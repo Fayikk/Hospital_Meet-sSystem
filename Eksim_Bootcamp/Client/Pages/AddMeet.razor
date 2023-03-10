@@ -31,12 +31,12 @@
             {
                 for (int j = 0; j < 60; j += 30)
                 {
-                   
-                   
-                        TimeSpan time = new TimeSpan(i, j, 0);
-                        <option style="color:green" value="@time">@time.ToString("hh\\:mm")</option>
-                   
-                   
+
+
+                    TimeSpan time = new TimeSpan(i, j, 0);
+                    <option style="color:green" value="@time">@time.ToString("hh\\:mm")</option>
+
+
                 }
             }
         </select>
@@ -74,10 +74,5 @@
 
         }
     }
-
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    await _doctorService.GetDoctor(poliId);
-    //}
 
 }

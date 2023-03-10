@@ -2,6 +2,7 @@
 @using Eksim_Bootcamp.Client.Services.AuthServices;
 @using Eksim_Bootcamp.Shared.Model;
 @inject IAuthService _authService
+@inject NavigationManager _navigationManager
 
 <PageTitle>Register</PageTitle>
 
@@ -37,6 +38,8 @@
     async Task HandleRegistration()
     {
         var result = await _authService.Register(user);
+        _navigationManager.NavigateTo("login");
+
         if (!result.Success)
         {
             messageCssClass = "text-success";

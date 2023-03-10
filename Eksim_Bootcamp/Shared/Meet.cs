@@ -17,6 +17,7 @@ namespace Eksim_Bootcamp.Shared
         public string? DoctorName { get; set; } //
         public string? PolyclinicName { get; set; }  //
         public DateTime MeetDate { get; set; }  //
+        [Required(ErrorMessage ="Lütfen toplantı saati seçiniz")]
         public TimeSpan MeetTime { get; set; }
         public bool Status { get; set; } = true;
 

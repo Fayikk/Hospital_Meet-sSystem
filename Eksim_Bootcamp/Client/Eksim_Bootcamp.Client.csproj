@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Try.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.13" />
@@ -21,6 +25,18 @@
   <ItemGroup>
     <Folder Include="Pages\Admin\AddDoctor\" />
     <Folder Include="Shared\Account\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Try.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Try.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Try.razor" />
   </ItemGroup>
 
 </Project>

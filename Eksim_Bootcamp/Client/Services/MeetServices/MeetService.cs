@@ -34,9 +34,21 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
             return responseData;
         }
 
-        public async Task CancelMeet(int id)
+        public async Task<ServiceResponse<Meet>> CancelMeet(int id)
         {
-            var result = await _http.PutAsJsonAsync<ServiceResponse<Meet>>($"api/meet/cancel/{id}",null);
+            var response = await _http.PutAsJsonAsync<ServiceResponse<Meet>>($"api/meet/cancel/{id}",null);
+            if (response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<Meet>>();
+                var errors = new ServiceResponse<Meet>
+                {
+                    Message = errorResponse.Message,
+                    Success = errorResponse.Success,
+                };
+                return errors;
+            }
+            var responseData = await response.Content.ReadFromJsonAsync<ServiceResponse<Meet>>();
+            return responseData;
         }
 
         public async Task<List<Meet>> GetMeet()

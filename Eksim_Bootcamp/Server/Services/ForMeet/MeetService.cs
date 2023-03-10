@@ -26,7 +26,7 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
 
             var response = result.MeetDate - DateTime.UtcNow;
             var hour = response.Hours;
-            var day = response.Days;
+            var day = result.MeetDate.Day - DateTime.UtcNow.Day;
             if (result.Status != false)
             {
                 if (hour < 6 && day < 1)
@@ -34,7 +34,7 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
                     return new ServiceResponse<Meet>
                     {
                         Success = false,
-                        Message = "Seçili randevu doludur",
+                        Message = "Randevu saati en az 6 saat kala iptal edilebilir",
 
                     };
                 }
@@ -62,6 +62,16 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
                             .Where(x => x.MeetDate.Month == meet.MeetDate.Month).ToListAsync();
             var user = _authService.GetUserId();
             var checkUser = await _context.Meets.Where(x => x.UserId == user).ToListAsync();
+
+            if (meet.MeetTime.Hours == 00)
+            {
+                return new ServiceResponse<Meet>
+                {
+                    Success = false,
+                    Message = "Randevu tarihi girmeniz zorunludur",
+                };
+            }
+
 
 
             foreach (var item in checkUser)
@@ -91,9 +101,9 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
             }
 
 
-            if (result != null && poly != null)
+            if (doctor != null && poly != null)
             {
-                meet.DoctorId = result[0].DoctorId;
+                meet.DoctorId = doctor.DoctorId;
                 meet.UserId = user;
                 meet.PolyclinicName = poly.PoliclinicName;
                 meet.DoctorName = doctor.Name;
