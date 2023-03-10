@@ -25,8 +25,12 @@
             {
                 for (int j = 0; j < 60; j += 30)
                 {
-                    TimeSpan time = new TimeSpan(i, j, 0);
-                    <option value="@time">@time.ToString("hh\\:mm")</option>
+                   
+                   
+                        TimeSpan time = new TimeSpan(i, j, 0);
+                        <option style="color:green" value="@time">@time.ToString("hh\\:mm")</option>
+                   
+                   
                 }
             }
         </select>
@@ -47,7 +51,7 @@
     public int doctorId { get; set; }
     Meet meet = new Meet();
     string errorMessage = "";
-
+    bool errorBool = false;
     private async Task CreateMeets()
     {
         meet.DoctorId = doctorId;
@@ -56,6 +60,7 @@
         if (!result.Success)
         {
             errorMessage = result.Message;
+            errorBool = result.Success;
         }
         else
         {

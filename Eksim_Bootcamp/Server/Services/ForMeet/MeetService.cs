@@ -61,13 +61,13 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
                             .Where(x => x.MeetDate.Month == meet.MeetDate.Month).ToListAsync();
             var user = _authService.GetUserId();
 
-            if (poly.Id == meet.DoctorId)
+            if (result.DoctorId == meet.DoctorId)
             {
                 foreach (var item in mDate)
                 {
                     if (item.MeetDate.Day == meet.MeetDate.Day)
                     {
-                        if (item.MeetTime.Hours == meet.MeetTime.Hours)
+                        if (item.MeetTime.Hours == meet.MeetTime.Hours && item.MeetTime.Minutes == meet.MeetTime.Minutes)
                         {
                             return new ServiceResponse<Meet>
                             {
