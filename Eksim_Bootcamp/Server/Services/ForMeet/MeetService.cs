@@ -57,22 +57,28 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
         {
             var result = await _context.Doctors.FirstOrDefaultAsync(x => x.DoctorId == meet.DoctorId);
             var poly = await _context.Policlinics.FirstOrDefaultAsync(x => x.Id == result.PoliclinicId);
-            var mDate = await _context.Meets.FirstOrDefaultAsync(x => x.MeetDate.Month == meet.MeetDate.Month);//gün
+            var mDate = await _context.Meets
+                            .Where(x => x.MeetDate.Month == meet.MeetDate.Month).ToListAsync();
             var user = _authService.GetUserId();
 
-
-
-            if (meet.MeetDate.Day == mDate.MeetDate.Day)
+            if (poly.Id == meet.DoctorId)
             {
-                if (meet.MeetTime == mDate.MeetTime)
+                foreach (var item in mDate)
                 {
-                    return new ServiceResponse<Meet>
+                    if (item.MeetDate.Day == meet.MeetDate.Day)
                     {
-                        Success = false,
-                        Message = "Seçili alanda randevu bulunmamakta",
-                    };
-
+                        if (item.MeetTime.Hours == meet.MeetTime.Hours)
+                        {
+                            return new ServiceResponse<Meet>
+                            {
+                                Success = false,
+                                Message = "Seçili alanda ilgili doktora ait randevu bulunmamaktadır",
+                            };
+                        }
+                    }
                 }
+
+
             }
 
             if (result != null && poly != null)
@@ -94,6 +100,10 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
             return new ServiceResponse<Meet> { Success = false };
         }
 
+        public Task<ServiceResponse<bool>> ExistMeet()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<ServiceResponse<List<Meet>>> GetMeetById()
         {

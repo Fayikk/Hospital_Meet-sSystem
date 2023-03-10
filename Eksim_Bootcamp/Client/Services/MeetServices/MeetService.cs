@@ -9,7 +9,6 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
     {
         private readonly HttpClient _http;
         private readonly AuthenticationStateProvider _stateProvider;
-
         public List<Meet> Meets { get; set; } = new List<Meet>();
 
         public MeetService(HttpClient http,AuthenticationStateProvider stateProvider)
@@ -18,10 +17,21 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
             _stateProvider = stateProvider;
         }
 
-        public async Task CreateMeet(Meet meet)
+        public async Task<ServiceResponse<Meet>> CreateMeet(Meet meet)
         {
-            //var response = await _http.PostAsJsonAsync("api/meet/add", meet);
-            //Meets = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Meet>>>()).Message;
+            var response = await _http.PostAsJsonAsync("api/meet/add", meet);
+            if (response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<Meet>>();
+                var errors = new ServiceResponse<Meet>
+                {
+                    Message = errorResponse.Message,
+                    Success = errorResponse.Success
+                };
+                return errors;
+            }
+            var responseData = await response.Content.ReadFromJsonAsync<ServiceResponse<Meet>>();
+            return responseData;
         }
 
         public async Task CancelMeet(int id)

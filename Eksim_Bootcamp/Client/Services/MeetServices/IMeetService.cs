@@ -6,7 +6,7 @@ namespace Eksim_Bootcamp.Client.Services.MeetServices
     {
         List<Meet> Meets { get; set; }
         Task<List<Meet>> GetMeet();
-        Task CreateMeet(Meet meet);
+        Task<ServiceResponse<Meet>> CreateMeet(Meet meet);
         Task CancelMeet(int id);
     }
 }
