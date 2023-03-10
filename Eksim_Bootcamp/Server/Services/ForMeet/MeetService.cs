@@ -61,6 +61,22 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
             var mDate = await _context.Meets
                             .Where(x => x.MeetDate.Month == meet.MeetDate.Month).ToListAsync();
             var user = _authService.GetUserId();
+            var checkUser = await _context.Meets.Where(x => x.UserId == user).ToListAsync();
+
+
+            foreach (var item in checkUser)
+            {
+                if (item.Status == true)
+                {
+                    return new ServiceResponse<Meet>
+                    {
+                        Message = "Zaten aktif bir randevuya sahipsiniz",
+                        Success = false,
+                    };
+                }
+            }
+
+
 
             foreach (var item in result)
             {
@@ -74,28 +90,6 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
                 }
             }
 
-
-
-
-            //if (result.DoctorId == meet.DoctorId)
-            //{
-            //    foreach (var item in mDate)
-            //    {
-            //        if (item.MeetDate.Day == meet.MeetDate.Day)
-            //        {
-            //            if (item.MeetTime.Hours == meet.MeetTime.Hours && item.MeetTime.Minutes == meet.MeetTime.Minutes)
-            //            {
-            //                return new ServiceResponse<Meet>
-            //                {
-            //                    Success = false,
-            //                    Message = "Seçili alanda ilgili doktora ait randevu bulunmamaktadır",
-            //                };
-            //            }
-            //        }
-            //    }
-
-
-            //}
 
             if (result != null && poly != null)
             {
@@ -135,6 +129,6 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
 
         }
 
-      
+
     }
 }

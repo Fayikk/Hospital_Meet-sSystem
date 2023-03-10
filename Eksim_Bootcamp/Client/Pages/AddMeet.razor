@@ -14,9 +14,15 @@
 
     <div class="mb-3">
         <label for="dateInput">Tarih bilgisini Giriniz</label>
-        <input type="date" id="dateInput" @bind="@meet.MeetDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        <div class="mb-3 text-danger" style="font-style:italic"><strong>(Randevular Yalnızca 1 aylık sürelerde alınabilmektedir)</strong></div>
+        @{
+            DateTime minDate = DateTime.Today;
+            DateTime maxDate = minDate.AddMonths(1);
+        }
+        <input type="date" id="dateInput" @bind="@meet.MeetDate" class="form-control"
+               min="@minDate.ToString("yyyy-MM-dd")" max="@maxDate.ToString("yyyy-MM-dd")" />
         <ValidationMessage For="@(() => meet.MeetDate)" />
-    </div> 
+    </div>
 
     <div class="mb-3">
         <label for="timeInput">Saat bilgisini Giriniz</label>
