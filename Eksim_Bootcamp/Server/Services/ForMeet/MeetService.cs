@@ -55,38 +55,54 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
 
         public async Task<ServiceResponse<Meet>> CreateMeet(Meet meet)
         {
-            var result = await _context.Doctors.FirstOrDefaultAsync(x => x.DoctorId == meet.DoctorId);
-            var poly = await _context.Policlinics.FirstOrDefaultAsync(x => x.Id == result.PoliclinicId);
+            var result = await _context.Meets.Where(x => x.DoctorId == meet.DoctorId).ToListAsync();
+            var doctor = await _context.Doctors.FirstOrDefaultAsync(x => x.DoctorId == meet.DoctorId);
+            var poly = await _context.Policlinics.FirstOrDefaultAsync(x => x.Id == doctor.PoliclinicId);
             var mDate = await _context.Meets
                             .Where(x => x.MeetDate.Month == meet.MeetDate.Month).ToListAsync();
             var user = _authService.GetUserId();
 
-            if (result.DoctorId == meet.DoctorId)
+            foreach (var item in result)
             {
-                foreach (var item in mDate)
+                if (item.MeetDate == meet.MeetDate && item.MeetTime == meet.MeetTime)
                 {
-                    if (item.MeetDate.Day == meet.MeetDate.Day)
+                    return new ServiceResponse<Meet>
                     {
-                        if (item.MeetTime.Hours == meet.MeetTime.Hours && item.MeetTime.Minutes == meet.MeetTime.Minutes)
-                        {
-                            return new ServiceResponse<Meet>
-                            {
-                                Success = false,
-                                Message = "Seçili alanda ilgili doktora ait randevu bulunmamaktadır",
-                            };
-                        }
-                    }
+                        Success = false,
+                        Message = "Seçili alanda ilgili doktora ait randevu bulunmamaktadır",
+                    };
                 }
-
-
             }
+
+
+
+
+            //if (result.DoctorId == meet.DoctorId)
+            //{
+            //    foreach (var item in mDate)
+            //    {
+            //        if (item.MeetDate.Day == meet.MeetDate.Day)
+            //        {
+            //            if (item.MeetTime.Hours == meet.MeetTime.Hours && item.MeetTime.Minutes == meet.MeetTime.Minutes)
+            //            {
+            //                return new ServiceResponse<Meet>
+            //                {
+            //                    Success = false,
+            //                    Message = "Seçili alanda ilgili doktora ait randevu bulunmamaktadır",
+            //                };
+            //            }
+            //        }
+            //    }
+
+
+            //}
 
             if (result != null && poly != null)
             {
-                meet.DoctorId = result.DoctorId;
+                meet.DoctorId = result[0].DoctorId;
                 meet.UserId = user;
                 meet.PolyclinicName = poly.PoliclinicName;
-                meet.DoctorName = result.Name;
+                meet.DoctorName = doctor.Name;
                 var addedObj = _context.Meets.Add(meet);
 
                 await _context.SaveChangesAsync();
