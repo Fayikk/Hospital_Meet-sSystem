@@ -70,13 +70,16 @@ namespace Eksim_Bootcamp.Server.Migrations
                     b.Property<DateTime>("MeetDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<TimeSpan>("MeetTime")
+                        .HasColumnType("time");
+
                     b.Property<string>("PolyclinicName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

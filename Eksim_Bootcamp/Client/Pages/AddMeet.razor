@@ -13,10 +13,26 @@
     </div>
 
     <div class="mb-3">
-        <label for="doctorId">Tarih bilgisini Giriniz</label>
-        <InputDate @bind-Value="meet.MeetDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")"></InputDate>
-        <ValidationSummary For="@(() => meet.MeetDate)"></ValidationSummary>
+        <label for="dateInput">Tarih bilgisini Giriniz</label>
+        <input type="date" id="dateInput" @bind="@meet.MeetDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        <ValidationMessage For="@(() => meet.MeetDate)" />
+    </div> 
+
+    <div class="mb-3">
+        <label for="timeInput">Saat bilgisini Giriniz</label>
+        <select id="timeInput" @bind="@meet.MeetTime" class="form-control">
+            @for (int i = 8; i < 17; i++)
+            {
+                for (int j = 0; j < 60; j += 30)
+                {
+                    TimeSpan time = new TimeSpan(i, j, 0);
+                    <option value="@time">@time.ToString("hh\\:mm")</option>
+                }
+            }
+        </select>
+        <ValidationMessage For="@(() => meet.MeetTime)" />
     </div>
+
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Save</button>
 

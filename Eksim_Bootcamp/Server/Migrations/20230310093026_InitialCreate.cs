@@ -32,11 +32,12 @@ namespace Eksim_Bootcamp.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     CreatedMeet = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PolyclinicName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PolyclinicName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MeetDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MeetTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

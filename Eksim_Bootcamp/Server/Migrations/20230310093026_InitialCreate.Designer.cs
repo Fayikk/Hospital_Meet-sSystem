@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eksim_Bootcamp.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230309194017_Revize")]
-    partial class Revize
+    [Migration("20230310093026_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,13 +72,16 @@ namespace Eksim_Bootcamp.Server.Migrations
                     b.Property<DateTime>("MeetDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<TimeSpan>("MeetTime")
+                        .HasColumnType("time");
+
                     b.Property<string>("PolyclinicName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -12,7 +12,7 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
         private readonly ApplicationDbContext _context;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
-        public MeetService(ApplicationDbContext context,IAuthService authService,IMapper mapper)
+        public MeetService(ApplicationDbContext context, IAuthService authService, IMapper mapper)
         {
             _context = context;
             _authService = authService;
@@ -22,18 +22,19 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
 
         public async Task<ServiceResponse<Meet>> CancelMeet(int id)
         {
-            var result = await _context.Meets.FirstOrDefaultAsync(x=>x.Id == id);
+            var result = await _context.Meets.FirstOrDefaultAsync(x => x.Id == id);
 
-            var response = result.MeetDate - DateTime.UtcNow ;
+            var response = result.MeetDate - DateTime.UtcNow;
             var hour = response.Hours;
             var day = response.Days;
             if (result.Status != false)
             {
-                if (hour < 6 && day<1)
+                if (hour < 6 && day < 1)
                 {
                     return new ServiceResponse<Meet>
                     {
                         Success = false,
+                        Message = "Seçili randevu doludur",
 
                     };
                 }
@@ -49,23 +50,39 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
             }
 
             return null;
-        
+
         }
 
         public async Task<ServiceResponse<Meet>> CreateMeet(Meet meet)
         {
             var result = await _context.Doctors.FirstOrDefaultAsync(x => x.DoctorId == meet.DoctorId);
             var poly = await _context.Policlinics.FirstOrDefaultAsync(x => x.Id == result.PoliclinicId);
+            var mDate = await _context.Meets.FirstOrDefaultAsync(x => x.MeetDate.Month == meet.MeetDate.Month);//gün
             var user = _authService.GetUserId();
-            
-            if (result != null && poly != null )
+
+
+
+            if (meet.MeetDate.Day == mDate.MeetDate.Day)
             {
-                meet.DoctorId=result.DoctorId;
+                if (meet.MeetTime == mDate.MeetTime)
+                {
+                    return new ServiceResponse<Meet>
+                    {
+                        Success = false,
+                        Message = "Seçili alanda randevu bulunmamakta",
+                    };
+
+                }
+            }
+
+            if (result != null && poly != null)
+            {
+                meet.DoctorId = result.DoctorId;
                 meet.UserId = user;
                 meet.PolyclinicName = poly.PoliclinicName;
                 meet.DoctorName = result.Name;
-               var addedObj = _context.Meets.Add(meet);
-       
+                var addedObj = _context.Meets.Add(meet);
+
                 await _context.SaveChangesAsync();
 
                 return new ServiceResponse<Meet>
@@ -74,7 +91,7 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
                     Success = true,
                 };
             }
-            return new ServiceResponse<Meet> { Success= false };
+            return new ServiceResponse<Meet> { Success = false };
         }
 
 
@@ -91,5 +108,7 @@ namespace Eksim_Bootcamp.Server.Services.ForMeet
             return response;
 
         }
+
+      
     }
 }
